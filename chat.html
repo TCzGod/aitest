@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>专题综述写作器</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        #chat-container {
+            width: 600px;
+            height: 500px; /* Adjust height as needed */
+            background-color: #f9f9f9;
+            border-radius: 16px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        #chat-box {
+            height: 350px;
+            overflow-y: scroll;
+            margin-bottom: 20px;
+            padding-right: 10px;
+            border-bottom: 2px solid #ddd;
+        }
+
+        #user-input {
+            width: calc(100% - 92px);
+            padding: 10px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            margin-right: 20px;
+            outline: none;
+            font-size: 16px;
+            height: 60px;
+        }
+
+        #send-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            background-color: #4caf50;
+            color: #fff;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #send-button:hover {
+            background-color: #45a049;
+        }
+
+        p {
+            margin: 5px 0;
+            padding: 8px 12px;
+            border-radius: 8px;
+        }
+
+        p.user {
+            background-color: #007bff;
+            color: #fff;
+            align-self: flex-end;
+        }
+
+        p.bot {
+            background-color: #ff5722;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div id="chat-container">
+        <div id="chat-box"></div>
+        <input type="text" id="user-input" placeholder="请输入你的问题">
+        <button id="send-button" onclick="sendMessage()">发送</button>
+    </div>
+
+    <script>
+        function sendMessage() {
+            var userInput = document.getElementById("user-input").value;
+            var chatBox = document.getElementById("chat-box");
+
+            // 显示用户输入的内容
+            chatBox.innerHTML += "<p class='user'>" + userInput + "</p>";
+
+            // 发送用户输入的内容给后端
+            fetch('http://localhost:8000/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message: userInput })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // 显示后端返回的内容
+                chatBox.innerHTML += "<p class='bot'>" + data.response + "</p>";
+            });
+
+            // 清空输入框
+            document.getElementById("user-input").value = "";
+        }
+    </script>
+</body>
+</html>
