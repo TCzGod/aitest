@@ -18,7 +18,8 @@ ChatGPT作为一个强大的大语言模型，事先进行过巨量的迭代训�
   <div id="chat-box"></div>
   <input type="text" id="user-input" />
   <button onclick="sendMessage()">发送</button>
-</div>```
+</div>
+```
 
 ## JavaScript 是一种脚本语言，常用于创建动态和交互式的网页内容。在本示例中，JavaScript 用于处理用户输入、与后端通信以及更新页面内容：
 
